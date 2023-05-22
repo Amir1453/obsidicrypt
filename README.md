@@ -1,6 +1,6 @@
 <p align="center"><strong>Obsidicrypt</strong> is the method used to encrypt, sandbox and sync your Obsidian notes.</p>
 
-<p align="center">•• <a href="#key-features">Key Features</a> • <a href="#downsides">Downsides</a> • <a href="#threat-model">Threat Model</a> • <a href="#requirements">Requirements</a> • <a href="#in-the-press">In the press</a> ••</p>
+<p align="center">•• <a href="#key-features">Key Features</a> • <a href="#downsides">Downsides</a> • <a href="#threat-model">Threat Model</a> • <a href="#requirements">Requirements</a> • <a href="#setting-up">Setting Up</a> ••</p>
 
 ## Key Features
 - Completely encrypt your Obsidian vault
@@ -70,6 +70,14 @@ Xephyr's boot time is much faster compared to Xpra when running Obsidian, howeve
 ## Setting Up
 This setting up guide assumes a lot of things, mainly: you are using Fedora, X11, want to encrypt your files with CryFs, want to sync your encrypted folders to GitHub, want to sandbox Obsidian via firejail and want to use fdns to whitelist internet connections. Even though that is a lot of assumptions, hopefully you will be able to extrapolate this onto your own setup.
 
+### Installing Obsidian
+You can download the Obsidian AppImage directly from https://obsidian.md/. After downloading, make the AppImage executable and place it to /opt/. Assuming the file name is Obsidian-1.2.8.AppImage, 
+
+```sh
+chmod u+x /path/to/Obsidian-1.2.8.AppImage
+sudo mv /path/to/Obsidian-1.2.8.AppImage /opt/Obsidian-1.2.8.AppImage
+```
+
 ### Creating Encryption
 Install Cryfs using
 
@@ -106,7 +114,7 @@ cryfs-unmount ~/Vault
 ```
 
 ### Creating a Git Repository
-Creating the git repository is as simply as 
+Creating the git repository is as simple as 
 
 ```sh
 cd ~/.enc/encrypted_vault
@@ -129,4 +137,60 @@ git remote add origin https://github.com/yourusername/yourreponame.git
 git push -u origin main
 ```
 
+### Using Firejail to sandbox
+Install firejail using 
 
+```sh
+sudo dnf install firejail
+```
+
+Try running `firejail` to see what you get as output. Your terminal window should be reloaded and your terminal should now be running with firejail. If you try to use `sudo` you will see the permission denied error message. After exiting, you should also see the parent is shutting down message. To make Obsidian work with firejail, you need to create a special configuration for it. The configuration is in this repository.
+
+Either you can locate the `/etc/firejail` folder, or you can simply create `~/.config/firejail` and copy the profile. Be sure to edit the `obsidian.profile` file according to your own Vault location, and whether you want internet access or not. Please read the instructions in the `obsidian.profile` file.
+
+To run Obsidian without doing anything about the X11 issues, just type
+
+```sh
+firejail --appimage --profile=/.config/firejail/obsidian.profile /opt/Obsidian-1.2.8.AppImage
+```
+
+Obsidian should be running now, albeit restricted. Notice that there are no precautions against X11 keylogging, or plugins stealing your precious notes.
+
+### Setting up Xpra
+To install Xpra, simply run
+
+```sh
+sudo dnf install
+```
+
+Now when running Obsidian, use 
+
+```sh
+firejail --x11 --appimage --profile=/.config/firejail/obsidian.profile /opt/Obsidian-1.2.8.AppImage
+```
+
+You will see that Xpra starts before Obsidian does, and there are almost no noticeble differences, except of course, the lack of hardware acceleration. You might notice horrendous performance when opening the graph, for instance. That is to be expected. So if you can, just use Wayland.
+
+### Setting up fdns
+By now, your system should be pretty solid. These next steps are optional if you just want to restrict internet connection. 
+
+To install fdns, just follow the instructions on https://firejaildns.wordpress.com/download/. After fdns is installed, you should test it by running
+
+```sh
+sudo fdns
+```
+If there were no problems during installation, you should be able to see the fdns logging screen. If you wish, you can run `fdns --monitor` to monitor the DNS. To create a whitelist file, I recommend placing the whitelist file in `/usr/local/etc/fdns/`. You can simply copy the whitelist file in the repository.
+
+```sh 
+sudo mv /path/to/whitelist /usr/local/etc/fdns/whitelist
+```
+
+Note that the whitelist file in this repository contains github, to allow Obsidian and the plugins to update themselves. Now, to run the fdns with the whitelist, use
+
+```sh
+sudo fdns --whitelist-file=/usr/local/etc/fdns/whitelist
+```
+
+And your fdns server is ready! Good job if you came until here. The next step is to integrate fdns with firejail. It is nothing too difficult.
+
+### Integrating fdns and firejail
