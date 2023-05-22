@@ -71,5 +71,62 @@ Xephyr's boot time is much faster compared to Xpra when running Obsidian, howeve
 This setting up guide assumes a lot of things, mainly: you are using Fedora, X11, want to encrypt your files with CryFs, want to sync your encrypted folders to GitHub, want to sandbox Obsidian via firejail and want to use fdns to whitelist internet connections. Even though that is a lot of assumptions, hopefully you will be able to extrapolate this onto your own setup.
 
 ### Creating Encryption
-Install Cryfs using ```insert command here```. I usually store my encrypted folders in the `~/.enc` directory.
+Install Cryfs using
+
+```insert command here```
+
+I usually store my encrypted folders in the `~/.enc` directory. Let us assume that the `~/Vault` directory is where the filesystem is going to be mounted. Firstly, we need to create the encrypted filesystem using 
+
+```sh
+cryfs ~/.enc/encrypted_vault ~/Vault
+```
+
+When creating the filesystem, CryFs will ask whether to use default or custom settings. I recommend using custom settings. The first question will be about which block cipher you want to use. This is completly up to you. The second question will be about the block size. CryFs hides the file and folder hierarchy, and it does it so by seperating all of them into smaller blocks. The block size denotes the size of each individual block that will be created. For example, with the block size being 4KB, if you have an 8KB file, that would be seperated into 2 blocks. However, if you have a 1KB file, that would still be encrypted using a block of size 4KB. Since markdown files are each usually under a KB, I use the smallest block size of 4KB. You can find the average file size in a directory by running
+
+```sh
+find ./ -ls | awk '{sum += $7; n++;} END {print sum/n;}'
+```
+This command will output the average file size in a directory. If you have certain files that are much bigger than average, you can use the following command 
+
+```sh
+find ./ -size -100000c -ls | awk '{sum += $7; n++;} END {print sum/n;}'
+```
+This command will ignore files with file size greater than 100KB. 
+
+After deciding on your block size, the next question will be about treating missing blocks as integrity violations. I recommend you say no to this option if you are going to be using something to sync the encrypted folders. 
+
+Finally, create a good strong password, a chain is as strong as its weakest link!
+
+Now the filesystem should be mounted on `~/Vaults`. If you travel to `~/.enc/encrypted_vault` you might see that there is a new file called `cryfs.config` there. I recommend that you do not sync this file.
+
+To unmount the filesystem, simply run
+
+```sh
+cryfs-unmount ~/Vault
+```
+
+### Creating a Git Repository
+Creating the git repository is as simply as 
+
+```sh
+cd ~/.enc/encrypted_vault
+git init
+```
+Do not forget to create your .gitignore file with `cryfs.config` inside!
+
+```sh
+touch .gitignore
+echo cryfs.config >> .gitignore
+git add .gitignore
+git commit -m "Created .gitignore"
+```
+
+To sync it with your GitHub repository, 
+
+```sh
+git branch -M main
+git remote add origin https://github.com/yourusername/yourreponame.git
+git push -u origin main
+```
+
 
