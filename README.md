@@ -67,4 +67,9 @@ I personally recommend Xpra for Obsidian because you will be able to resize your
 Xephyr's boot time is much faster compared to Xpra when running Obsidian, however you will not be able to resize your windows size after starting Obsidian. You may try to run Xephyr with openbox, thus being able to resize the Obsidian window, but you wont be able to resize the Xephyr window. You can learn more about Xephyr [here](https://freedesktop.org/wiki/Software/Xephyr/)
 
 
+## Setting Up
+This setting up guide assumes a lot of things, mainly: you are using Fedora, X11, want to encrypt your files with CryFs, want to sync your encrypted folders to GitHub, want to sandbox Obsidian via firejail and want to use fdns to whitelist internet connections. Even though that is a lot of assumptions, hopefully you will be able to extrapolate this onto your own setup.
+
+### Creating Encryption
+Install Cryfs using ```insert command here```. I usually store my encrypted folders in the `~/.enc` directory.
 
