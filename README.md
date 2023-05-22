@@ -1,6 +1,6 @@
 <p align="center"><strong>Obsidicrypt</strong> is the method used to encrypt, sandbox and sync your Obsidian notes.</p>
 
-<p align="center">•• <a href="#key-features">Key Features</a> • <a href="#download">Download</a> • <a href="#installation">Installation</a> • <a href="#opensnitch-in-action">Usage examples</a> • <a href="#in-the-press">In the press</a> ••</p>
+<p align="center">•• <a href="#key-features">Key Features</a> • <a href="#downsides">Downsides</a> • <a href="#threat-model">Threat Model</a> • <a href="#requirements">Requirements</a> • <a href="#in-the-press">In the press</a> ••</p>
 
 ## Key Features
 - Completely encrypt your Obsidian vault
@@ -54,9 +54,17 @@ There are multiple ways to install Obsidian, but I would recommend using the App
 #### Firejail
 Firejail is needed in order to sandbox Obsidian, to prevent it from reading other folders, connecting to the internet and more. firejail is avaliable on most distros, the you can find the installation instructions [here](https://github.com/netblue30/firejail).
 
-
 #### fdns
 fdns is needed if you wish to create a dns server for your firejail sandbox. You can find installation instructions [here](https://github.com/netblue30/fdns)
+
+#### X11 Servers
+If you are on X11, when running an application, other malicious applicatons may be able to log your keys. To prevent this, you can use Xpra or Xephyr when running the Obsidian sandbox. 
+
+##### Xpra
+I personally recommend Xpra for Obsidian because you will be able to resize your windows, and generally the performance with Xephyr is the same. However, Xephyr boots up much faster compared to Xpra. You can find installation instructions [here](https://github.com/Xpra-org/xpra).
+
+##### Xephyr
+Xephyr's boot time is much faster compared to Xpra when running Obsidian, however you will not be able to resize your windows size after starting Obsidian. You may try to run Xephyr with openbox, thus being able to resize the Obsidian window, but you wont be able to resize the Xephyr window. You can learn more about Xephyr [here](https://freedesktop.org/wiki/Software/Xephyr/)
 
 
 
