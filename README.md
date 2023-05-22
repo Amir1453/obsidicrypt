@@ -194,3 +194,24 @@ sudo fdns --whitelist-file=/usr/local/etc/fdns/whitelist
 And your fdns server is ready! Good job if you came until here. The next step is to integrate fdns with firejail. It is nothing too difficult.
 
 ### Integrating fdns and firejail
+Decide on which port fdns should work. If you plan to use it fdns in your web browser for example, I would recommend you use 
+
+```sh
+sudo fdns --proxy-addr=127.2.2.2 --whitelist-file=/usr/local/etc/fdns/whitelist --daemonize
+```
+
+Which will run fdns on `127.2.2.2:53`. Notice the `--daemonize` parameter. It is used to seperate the process from the terminal. Now to use your newly found fdns with Obsidian, simply issue the command 
+
+```sh
+firejail --x11 --appimage --profile=/.config/firejail/obsidian.profile --dns=127.2.2.2 /opt/Obsidian-1.2.8.AppImage
+```
+
+Now, Obsidian will be using fdns to communicate with the outside world. In the case that it does not work, ensure that you blacklist the output of 
+
+```sh
+ldconfig -p | grep libnss_resolve.so.2
+```
+
+If you asked me how this worked, I would have no idea. Ask [rusty-snake](https://github.com/rusty-snake). I am guessing it has something to do with `systemd-resolved`.
+
+Remember that the default proxy address for fdns is 127.1.1.1. 
