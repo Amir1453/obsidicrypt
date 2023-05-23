@@ -1,6 +1,6 @@
 <p align="center"><strong>Obsidicrypt</strong> is the method used to encrypt, sandbox and sync your Obsidian notes.</p>
 
-<p align="center">•• <a href="#key-features">Key Features</a> • <a href="#downsides">Downsides</a> • <a href="#threat-model">Threat Model</a> • <a href="#requirements">Requirements</a> • <a href="#setting-up">Setting Up</a> ••</p>
+<p align="center">•• <a href="#key-features">Key Features</a> • <a href="#downsides">Downsides</a> • <a href="#threat-model">Threat Model</a> • <a href="#requirements">Requirements</a> • <a href="#setting-up">Setting Up</a> • <a href="#alternatives">Alternatives</a> • <a href="automation">Automation</a> ••</p>
 
 ## Key Features
 - Completely encrypt your Obsidian vault
@@ -38,33 +38,29 @@ Please also note that there may be security vulnerabilities with the encryption 
 #### Encryption Software
 If you wish to encrypt your files, you will have to install an encryption software. There are many options, but I would recommend the following three.
 
-##### CryFs
+##### [CryFs](https://github.com/cryfs/cryfs)
 CryFs is the encryption software that I would recommend using. It is designed for cloud storage, and hides the file and folder hierarchy, contents, sizes and names. Please note that there have been no security audits done, however you can find a masters paper on [CryFs encryption published](https://www.cryfs.org/cryfs_mathesis.pdf).
 
-To install CryFs, please refer to https://github.com/cryfs/cryfs.
-
-##### gocryptfs
+##### [gocryptfs](https://github.com/rfjakob/gocryptfs)
 gocryptfs is similar to CryFs in the sense that they can be both used for cloud encryption. However, gocryptfs does not hide the file and folder hierarchy and sizes. You can find the security audit done on gocryptfs here: https://defuse.ca/audits/gocryptfs.htm
 
-To install gocryptfs, please refer to https://github.com/rfjakob/gocryptfs.
-
-#### Obsidian
+#### [Obsidian](https://obsidian.md/)
 There are multiple ways to install Obsidian, but I would recommend using the AppImage. Note that if you use a Flatpak, you will be unable to use firejail and fdns.
 
-#### Firejail
-Firejail is needed in order to sandbox Obsidian, to prevent it from reading other folders, connecting to the internet and more. firejail is avaliable on most distros, the you can find the installation instructions [here](https://github.com/netblue30/firejail).
+#### [Firejail](https://github.com/netblue30/firejail)
+Firejail is needed in order to sandbox Obsidian, to prevent it from reading other folders, connecting to the internet and more. Firejail is avaliable on most distros.
 
-#### fdns
-fdns is needed if you wish to create a dns server for your firejail sandbox. You can find installation instructions [here](https://github.com/netblue30/fdns)
+#### [fdns](https://github.com/netblue30/fdns)
+fdns is needed if you wish to create a dns server for your firejail sandbox.
 
 #### X11 Servers
 If you are on X11, when running an application, other malicious applicatons may be able to log your keys. To prevent this, you can use Xpra or Xephyr when running the Obsidian sandbox. 
 
-##### Xpra
-I personally recommend Xpra for Obsidian because you will be able to resize your windows, and generally the performance with Xephyr is the same. However, Xephyr boots up much faster compared to Xpra. You can find installation instructions [here](https://github.com/Xpra-org/xpra).
+##### [Xpra](https://github.com/Xpra-org/xpra)
+I personally recommend Xpra for Obsidian because you will be able to resize your windows, and generally the performance with Xephyr is the same. However, Xephyr boots up much faster compared to Xpra.
 
-##### Xephyr
-Xephyr's boot time is much faster compared to Xpra when running Obsidian, however you will not be able to resize your windows size after starting Obsidian. You may try to run Xephyr with openbox, thus being able to resize the Obsidian window, but you wont be able to resize the Xephyr window. You can learn more about Xephyr [here](https://freedesktop.org/wiki/Software/Xephyr/)
+##### [Xephyr](https://freedesktop.org/wiki/Software/Xephyr/)
+Xephyr's boot time is much faster compared to Xpra when running Obsidian, however you will not be able to resize your windows size after starting Obsidian. You may try to run Xephyr with openbox, thus being able to resize the Obsidian window, but you wont be able to resize the Xephyr window.
 
 
 ## Setting Up
@@ -81,7 +77,9 @@ sudo mv /path/to/Obsidian-1.2.8.AppImage /opt/Obsidian-1.2.8.AppImage
 ### Creating Encryption
 Install Cryfs using
 
-```insert command here```
+```sh
+sudo dnf install cryfs
+```
 
 I usually store my encrypted folders in the `~/.enc` directory. Let us assume that the `~/Vault` directory is where the filesystem is going to be mounted. Firstly, we need to create the encrypted filesystem using 
 
