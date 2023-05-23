@@ -215,3 +215,33 @@ ldconfig -p | grep libnss_resolve.so.2
 If you asked me how this worked, I would have no idea. Ask [rusty-snake](https://github.com/rusty-snake). I am guessing it has something to do with `systemd-resolved`.
 
 Remember that the default proxy address for fdns is 127.1.1.1. 
+
+### Symlink Addendum
+I do not like syncing my `.obsidian` folder, at least not all of it. Some of the plugins I have create incredible merge conflict all the time, and since the filesystem is encrypted, even the smallest merge conflict might turn into an unmanageable mess. To fix this issue, I simply moved the `.obsidian` folder outside of `~/Vault`. After mounting the filesystem, I just create a symlink between the `.obsidian` folder and `~/Vaults`, and remove it before unmounting the filesystem. 
+
+## Alternatives
+
+### Encryption Software
+You can definetly use any encryption software you would like, so this will be completly up to you. If you want to store your files on the cloud, make sure that the encryption software is compatible with cloud syncing. 
+
+### Obsidian
+If you have the time, patience and effort avaliable, use emacs.
+
+### Sandboxing
+You can checkout [bubblewrap](https://github.com/containers/bubblewrap), the sandboxing used by flatpaks. If you download Obsidian as a flatpak you have quite a lot of options to control, such as file access control, shutting off internet access, and more. 
+
+### X11 Server
+You can use Xephyr, although it is a bit trickier to use compared to Obsidian. The performance is roughly the same. Xephyr lacks the ability to change window sizes, so you are stuck with what you start. You can change the default window size in `/etc/firejail/firejail.config` on line 153, there are multiple resolutions to choose from and you can create your own.
+
+### fdns
+Instead of using fdns to restrict connections, you might want to checkout something like a system wide firewall, an option being[OpenSnitch](https://github.com/evilsocket/opensnitch). It works very well, I would recommend having this even if you have fdns installed.
+
+## Automation
+Since this whole process would take a lot of time each time you want to simply write a note, I created a zsh function that would allow you to automate most of the process. It is titled `ob.zsh`. Simply copy the function to your `.zshrc` or create a seperate folder for your zsh aliases and functions and just add the following line to your `.zshrc`:
+
+```sh
+for config (~/.zsh/*.zsh) source $config
+```
+I recommend you create the zsh folder in `~/.zsh`.
+
+Do not forget to edit the script!! I have left the paths blank, so you have to change them. Additionally, it follows all the steps in Setting Up, so if you find stuff that you do not want to implement, you can remove it from the script. For example, if you do not want to create a symlink with the `.obsidian` folder, just remove the parts from the code that manage the symlink.
