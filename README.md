@@ -158,7 +158,7 @@ Obsidian should be running now, albeit restricted. Notice that there are no prec
 To install Xpra, simply run
 
 ```sh
-sudo dnf install
+sudo dnf install xpra
 ```
 
 Now when running Obsidian, use 
