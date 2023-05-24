@@ -254,7 +254,7 @@ ob(){
         # Removes the symlink
         echo "Removing symlink..."
         rm $ob_vault_path
-        sleep 0.5 # With no sleep sometimes .obsidian stays stuck inside the filesystem
+        sleep 1 # With no sleep sometimes .obsidian stays stuck inside the filesystem
       else
         echo "Symlink not found. Skipping."
       fi
@@ -282,7 +282,7 @@ ob(){
         # Removes the symlink
         echo "Removing symlink..."
         rm $ob_vault_path
-        sleep 0.5 # With no sleep sometimes .obsidian stays stuck inside the filesystem
+        sleep 1 # With no sleep sometimes .obsidian stays stuck inside the filesystem
       else
         echo "Symlink not found. Skipping."
       fi
@@ -357,7 +357,7 @@ ob(){
         # Removes the symlink
         echo "Removing symlink..."
         rm $ob_vault_path
-        sleep 0.5 # With no sleep sometimes .obsidian stays stuck inside the filesystem
+        sleep 1 # With no sleep sometimes .obsidian stays stuck inside the filesystem
       else
         echo "Symlink not found. Skipping."
       fi
