@@ -67,11 +67,11 @@ Xephyr's boot time is much faster compared to Xpra when running Obsidian, howeve
 This setting-up guide assumes a lot of things, mainly: you are using Fedora, X11, want to encrypt your files with CryFs, want to sync your encrypted folders to GitHub, want to sandbox Obsidian via firejail and want to use fdns to whitelist internet connections. Even though that is a lot of assumptions, hopefully, you will be able to extrapolate this onto your own setup.
 
 ### Installing Obsidian
-You can download the Obsidian AppImage directly from https://obsidian.md/. After downloading, make the AppImage executable and place it to /opt/. Assuming the file name is Obsidian-1.2.8.AppImage,
+You can download the Obsidian AppImage directly from https://obsidian.md/. After downloading, make the AppImage executable and place it to /opt/.
 
 ```sh
-chmod u+x /path/to/Obsidian-1.2.8.AppImage
-sudo mv /path/to/Obsidian-1.2.8.AppImage /opt/Obsidian-1.2.8.AppImage
+chmod u+x /path/to/Obsidian-*.AppImage
+sudo mv /path/to/Obsidian-*.AppImage /opt/Obsidian-1.2.8.AppImage
 ```
 
 ### Creating Encryption
