@@ -232,7 +232,7 @@ You can check out [bubblewrap](https://github.com/containers/bubblewrap), the sa
 You can use Xephyr, although it is a bit trickier to use compared to Obsidian. The performance is roughly the same. Xephyr lacks the ability to change window sizes, so you are stuck with what you start. You can change the default window size in `/etc/firejail/firejail.config` on line 153, there are multiple resolutions to choose from and you can create your own.
 
 ### fdns
-Instead of using fdns to restrict connections, you might want to check out something like a system-wide firewall, an option being[OpenSnitch](https://github.com/evilsocket/opensnitch). It works very well, I would recommend having this even if you have fdns installed.
+Instead of using fdns to restrict connections, you might want to check out something like a system-wide firewall, an option being [OpenSnitch](https://github.com/evilsocket/opensnitch). It works very well, I would recommend having this even if you have fdns installed.
 
 ## Automation
 Since this whole process would take a lot of time each time you want to simply write a note, I created a zsh function that would allow you to automate most of the process. It is titled `ob.zsh`. Simply copy the function to your `.zshrc` or create a separate folder for your zsh aliases and functions and just add the following line to your `.zshrc`:
